@@ -34,6 +34,22 @@ export class NameFilter extends React.Component {
        })
     }
 
+    handleAttackInput = async () => {
+      const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?perPage=801&attack=${this.state.num}`);
+  
+      this.setState({ 
+        pokeState: data.body.results
+       })
+    }
+
+    handleDefenseInput = async () => {
+      const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?perPage=801&attack=${this.state.num}`);
+  
+      this.setState({ 
+        pokeState: data.body.results
+       })
+    }
+
     render() {
       return (
         <header>
@@ -53,6 +69,16 @@ export class NameFilter extends React.Component {
                     Search by 2nd Type!
                     <input type='text' placeholder='Search Pokemon by Type' onChange={(e) => this.setState({ search: e.target.value})} />
                     <button onClick={this.handleType2Input}>Search!</button>
+              </label>
+              <label>
+                    Search by Min Attack!
+                    <input type='number' placeholder='Search Pokemon by Type' onChange={(e) => this.setState({ num: e.target.value})} />
+                    <button onClick={this.handleAttackInput}>Search!</button>
+              </label>
+              <label>
+                    Search by Min Defense!
+                    <input type='number' placeholder='Search Pokemon by Type' onChange={(e) => this.setState({ num: e.target.value})} />
+                    <button onClick={this.handleDefenseInput}>Search!</button>
               </label>
             </div>
             <ul>
