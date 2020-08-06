@@ -1,0 +1,37 @@
+input {
+    display: block;
+    margin: 20px;
+    cursor: pointer;
+}
+
+button {
+    display: block;
+    margin: auto;
+    cursor: pointer;
+}
+
+.bold {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+section {
+    display: flex;
+    flex-direction: row;
+    background-color: cornsilk;
+}
+
+label {
+    background-color: cornflowerblue;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: 200px;
+    width: 200px;
+}
+
+.labelDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 20px;
+}
