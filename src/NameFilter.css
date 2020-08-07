@@ -8,11 +8,7 @@ button {
     display: block;
     margin: auto;
     cursor: pointer;
-}
-
-.bold {
-    font-weight: bold;
-    text-decoration: underline;
+    margin-top: 20px;
 }
 
 section {
@@ -34,4 +30,5 @@ label {
     flex-direction: column;
     justify-content: flex-start;
     margin-left: 20px;
+    height: 610px;
 }

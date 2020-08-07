@@ -6,28 +6,12 @@ import './NameFilter.css';
 export class NameFilter extends React.Component {
     state = { 
       search: '',
-      num: 0,
+      searchBy: 'pokemon',
       pokeState: []
     }
   
-    handleNameInput = async () => {
-      const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?perPage=801&pokemon=${this.state.search}`);
-  
-      this.setState({ 
-        pokeState: data.body.results
-       })
-    }
-
-    handleType1Input = async () => {
-      const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?perPage=801&type_1=${this.state.search}`);
-  
-      this.setState({ 
-        pokeState: data.body.results
-       })
-    }
-
-    handleType2Input = async () => {
-      const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?perPage=801&type_2=${this.state.search}`);
+    handleSearchInput = async () => {
+      const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?perPage=801&${this.state.searchBy}=${this.state.search}`);
   
       this.setState({ 
         pokeState: data.body.results
@@ -40,24 +24,31 @@ export class NameFilter extends React.Component {
           <section>
             <div className='labelDiv'>
               <label>
-                    Search Pokemon by Name!
-                    <input type='text' placeholder='Search Pokemon by Name' onChange={(e) => this.setState({ search: e.target.value})} />
-                    <button onClick={this.handleNameInput}>Search!</button>
-              </label>
-              <label>
-                    Search by 1st Type!
-                    <input type='text' placeholder='Search Pokemon by Type' onChange={(e) => this.setState({ search: e.target.value})} />
-                    <button onClick={this.handleType1Input}>Search!</button>
-              </label>
-              <label>
-                    Search by 2nd Type!
-                    <input type='text' placeholder='Search Pokemon by Type' onChange={(e) => this.setState({ search: e.target.value})} />
-                    <button onClick={this.handleType2Input}>Search!</button>
+                  Search The Pokedex!
+                  <input type='text' placeholder='Search Here!' onChange={(e) => this.setState({ search: e.target.value})} />
+                  <p>Search By:</p>
+                  <select onChange={(e) => { this.setState({ searchBy: e.target.value })} }>
+                    <option value='pokemon'>Name</option>
+                    <option value='type_1'>Type 1</option>
+                    <option value='type_2'>Type 2</option>
+                    <option value='attack'>Min. Attack</option>
+                    <option value='defense'>Min. Defense</option>
+                    <option value='hp'>Min. HP</option>
+                    <option value='weight'>Min. Weight</option>
+                    <option value='height'>Min. Height</option>
+                    <option value='shape'>Shape</option>
+                    <option value='ability_1'>1st Ability</option>
+                    <option value='ability_2'>2nd Ability</option>
+                    <option value='ability_hidden'>Hidden Ability</option>
+                    <option value='egg_group_1'>1st Egg Group</option>
+                    <option value='egg_group_2'>2nd Egg Group</option>
+                  </select>
+                  <button onClick={this.handleSearchInput}>Search!</button>
               </label>
             </div>
             <ul>
                 {                
-                    this.state.pokeState.map(creature => <PokemonItem key={creature.pokemon} name={creature.pokemon} image={creature.url_image} type1={creature.type_1} type2={creature.type_2} attack={creature.attack} defense={creature.defense} hp={creature.hp} />)
+                    this.state.pokeState.map(creature => <PokemonItem key={creature.pokemon} name={creature.pokemon} image={creature.url_image} type1={creature.type_1} type2={creature.type_2} attack={creature.attack} defense={creature.defense} hp={creature.hp} id={creature._id}/>)
                 }
             </ul>
           </section>

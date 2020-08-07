@@ -3,3 +3,9 @@
   background-color: cornsilk;
   margin-bottom: 0px;
 }
+
+.instructions {
+  display: block;
+  margin: 10px;
+  font-weight: bold;
+}
