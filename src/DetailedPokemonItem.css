@@ -10,8 +10,9 @@ p {
     margin: 8px;
 }
 
-li {
-    border-bottom: solid black 1px;
+.detailed-pokemon-item {
+    border: solid pink 5px;
+    border-radius: 10px;
     list-style-type: none;
     width: 300px;
     text-transform: capitalize;

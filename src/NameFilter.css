@@ -32,3 +32,22 @@ label {
     margin-left: 20px;
     height: 610px;
 }
+
+.pageButtons {
+    display: inline-flex;
+    margin: 20px;
+    background-color: pink;
+}
+
+.page {
+    display: inline-flex;
+}
+
+.pageDiv {
+    border: solid pink 5px;
+    border-radius: 10px;
+    width: 300px;
+    justify-content: center;
+    display: block;
+    margin: auto;
+}

@@ -1,33 +1,84 @@
 import React from 'react';
 import request from 'superagent';
-import { PokemonItem } from './PokemonItem.js';
+import { PokeList } from './PokemonList.js';
 import './NameFilter.css';
 
 export class NameFilter extends React.Component {
-    state = { 
-      search: '',
-      searchBy: 'pokemon',
-      pokeState: []
-    }
-  
-    handleSearchInput = async () => {
-      const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?perPage=801&${this.state.searchBy}=${this.state.search}`);
-  
-      this.setState({ 
-        pokeState: data.body.results
-       })
-    }
+  state = { 
+    search: '',
+    searchBy: 'pokemon',
+    pokeState: [],
+    currentPage: 1,
+    totalPages: 1
+  }
 
-    render() {
-      return (
-        <header>
-          <section>
-            <div className='labelDiv'>
+  makeRequest = async () => {
+    
+    const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?page=${this.state.currentPage}&perPage=20&${this.state.searchBy}=${this.state.search}`);
+
+    await this.setState({ 
+      pokeState: data.body.results,
+      totalPages: Math.ceil(data.body.count / 20)
+     })
+
+     const params = new URLSearchParams(this.props.location.search);
+
+     params.set('search', this.state.search);
+     params.set('searchBy', this.state.searchBy);
+     params.set('page', this.state.currentPage);
+
+
+     this.props.history.push('?' + params.toString())
+  }
+
+  componentDidMount = async () => {
+    const params = new URLSearchParams(this.props.location.search);
+
+    const searchBy = params.get('searchBy');
+    const page = params.get('page');
+    const search = params.get('search');
+
+    if (searchBy && page && search) {
+      await this.setState({
+        searchBy: searchBy,
+        currentPage: page,
+        search: search
+      });
+    }
+    await this.makeRequest()
+  }
+
+  handleSearchInput = async (e) => {
+    e.preventDefault();
+
+    await this.setState({
+      currentPage: 1
+    })
+    await this.makeRequest()
+  }
+
+  handleNextClick = async () => {
+    await this.setState({ currentPage: this.state.currentPage + 1 })
+
+    await this.makeRequest();
+  }
+
+  handlePrevClick = async () => {
+    await this.setState({ currentPage: this.state.currentPage - 1 })
+
+    await this.makeRequest();
+  }
+
+  render() {    
+    return (
+      <header>
+        <section>
+          <div className='labelDiv'>
               <label>
                   Search The Pokedex!
-                  <input type='text' placeholder='Search Here!' onChange={(e) => this.setState({ search: e.target.value})} />
+                  <input type='text' placeholder='Search Here!' value={this.state.search} onChange={(e) => this.setState({ search: e.target.value})} />
                   <p>Search By:</p>
-                  <select onChange={(e) => { this.setState({ searchBy: e.target.value })} }>
+                  <select value={this.state.searchBy} onChange={(e) => { this.setState({ searchBy: e.target.value })} }>
                     <option value='pokemon'>Name</option>
                     <option value='type_1'>Type 1</option>
                     <option value='type_2'>Type 2</option>
@@ -45,14 +96,14 @@ export class NameFilter extends React.Component {
                   </select>
                   <button onClick={this.handleSearchInput}>Search!</button>
               </label>
-            </div>
-            <ul>
-                {                
-                    this.state.pokeState.map(creature => <PokemonItem key={creature.pokemon} name={creature.pokemon} image={creature.url_image} type1={creature.type_1} type2={creature.type_2} attack={creature.attack} defense={creature.defense} hp={creature.hp} id={creature._id}/>)
-                }
-            </ul>
-          </section>
-        </header>
-      );
-    }
+          </div>
+          <ul>
+          {
+            <PokeList handleNextClick={this.handleNextClick} handlePrevClick={this.handlePrevClick} currentPage={this.state.currentPage} pokeState={this.state.pokeState} totalPages={this.state.totalPages}/>
+          }
+          </ul>
+        </section>
+      </header>
+    );
   }
+}
