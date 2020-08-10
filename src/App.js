@@ -1,11 +1,6 @@
 import React from 'react';
 import './App.css';
-import {
-  BrowserRouter as Router, 
-  Route, 
-  Switch,
-  Link,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { AppHeader } from './header.js';
 import { NameFilter } from './NameFilter.js';
 import { DetailsPage } from './DetailsPage.js';
@@ -25,7 +20,7 @@ function App() {
                 render={(routerProps) => <NameFilter {...routerProps} />} 
             />
             <Route 
-                path="/details/:booger"
+                path="/details/:pokeID"
                 exact
                 render={(routerProps) => <DetailsPage {...routerProps} />} 
             />

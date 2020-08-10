@@ -6,7 +6,9 @@ export class DetailedPokemonItem extends React.Component {
         return (
             <li className="detailed-pokemon-item">
                 <h3>Name: {this.props.name}</h3>
+                <a href={this.props.link}  target="_blank" rel="noopener noreferrer">
                 <img src={this.props.image} alt={this.props.name}/>
+                </a>
                 <p>Type 1: {this.props.type1}</p>
                 <p>Type 2: {this.props.type2}</p>
                 <p>Attack: {this.props.attack}</p>
@@ -20,8 +22,6 @@ export class DetailedPokemonItem extends React.Component {
                 <p>Hidden Ability: {this.props.abilityh}</p>
                 <p>Egg Group 1: {this.props.egg1}</p>
                 <p>Egg Group 2: {this.props.egg2}</p>
-                <div></div>
-                <a href={this.props.link}  target="_blank" rel="noopener noreferrer">Link to Furthur Infomation</a>
             </li>
         )
     }
